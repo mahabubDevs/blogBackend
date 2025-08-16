@@ -3,6 +3,7 @@ import express, { Request, Response } from "express";
 
 import cors from "cors";
 import handleStripeWebhook from "./helpers/handleStripeWebhook";
+import { SubscriptionRoutes } from "./app/modules/mysubscription/subscription.webhook";
 import { StatusCodes } from "http-status-codes";
 import { Morgan } from "./shared/morgan";
 import router from '../src/app/routes';
@@ -11,11 +12,24 @@ import session from "express-session";
 
 const app = express();
 
-app.post(
-  '/webhook/stripe/webhook',
-  express.raw({ type: 'application/json' }),
-  handleStripeWebhook
-);
+// app.post(
+//   '/webhook/stripe/webhook',
+//   express.raw({ type: 'application/json' }),
+//   handleStripeWebhook
+// );
+
+// router.post(
+//   "/webhook",
+//   (req, res, next) => {
+//     console.log("🚀 Incoming request to /api/v1/webhook");
+//     console.log("👉 Headers:", req.headers);
+//     next();
+//   },
+//   express.raw({ type: "application/json" }),
+//   stripeWebhook
+// );
+app.use("/api/v1/subscription", SubscriptionRoutes);
+
 
 // morgan
 app.use(Morgan.successHandler);

@@ -2,7 +2,7 @@ import express from "express";
 import auth from "../../middlewares/auth";
 import { USER_ROLES } from "../../../enums/user";
 import { SubscriptionController } from "./subscripton.controller";
-import { stripeWebhook } from "./subscription.webhook";
+// import { stripeWebhook } from "./subscription.webhook";
 
 const router = express.Router();
 
@@ -30,6 +30,6 @@ router.get(
   SubscriptionController.companySubscriptionDetails
 );
 
-router.post("/webhook", express.raw({ type: "application/json" }), stripeWebhook);
+// router.post("/webhook", express.raw({ type: "application/json" }), stripeWebhook);
 
 export const SubscriptionRoutes = router;

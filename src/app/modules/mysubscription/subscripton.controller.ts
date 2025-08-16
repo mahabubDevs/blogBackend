@@ -8,42 +8,35 @@ import { IUser } from "../user/user.interface";
 import { Types } from "mongoose";
 
 export const SubscriptionController = {
-  create: catchAsync(async (req: Request, res: Response) => {
-    // JWT middleware থেকে req.user পাওয়া দরকার
-    const authUser = req.user; 
+  // subscription.controller.ts
+create: catchAsync(async (req: Request, res: Response) => {
+  const authUser = req.user;
+  console.log("Auth User:", authUser);
 
-    if (!authUser || !authUser._id) {
-      return res.status(401).json({ message: "Unauthorized: user not found in token" });
-    }
-    const { packageId } = req.body;
+  if (!authUser || !authUser.id) {
+    return res.status(401).json({ message: "Unauthorized: user not found in token" });
+  }
 
-    // Ensure all IUser fields are present
-    const user: IUser & { _id: Types.ObjectId } = {
-      _id: new Types.ObjectId(authUser._id),
-      name: authUser.name,
-      appId: authUser.appId,
-      role: authUser.role,
-      contact: authUser.contact,
-      email: authUser.email,
-      password: authUser.password || "", // Provide a default or fetch from authUser
-      location: authUser.location || "", // Provide a default or fetch from authUser
-      profile: authUser.profile || {},   // Provide a default or fetch from authUser
-      verified: authUser.verified ?? false, // Provide a default or fetch from authUser
-    //   address: authUser.address,
-    //   company: authUser.company,
-      // add any other IUser fields if required
-    };
+  // Fetch the full user object from the database to satisfy the type requirement
+  const user = await import("../user/user.model").then(m => m.User.findById(authUser.id));
+  if (!user) {
+    return res.status(404).json({ message: "User not found" });
+  }
 
-    const subscription = await SubscriptionService.createSubscription(
-      user,
-      packageId
-    );
+  const { packageId } = req.body;
 
-    res.status(201).json({
-      success: true,
-      data: subscription
-    });
-  }),
+  const subscription = await SubscriptionService.createSubscription(
+    user,
+    packageId
+  );
+
+  res.status(201).json({
+    success: true,
+    message: "Checkout session created",
+    data: subscription,
+  });
+}),
+
 
   subscriptions: catchAsync(async (_req: Request, res: Response) => {
     const data = await Subscription.find().populate("user package");

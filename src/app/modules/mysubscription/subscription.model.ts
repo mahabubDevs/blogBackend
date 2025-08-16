@@ -5,15 +5,25 @@ const subscriptionSchema = new Schema<ISubscription, SubscriptionModel>(
   {
     user: { type: Schema.Types.ObjectId, ref: "User", required: true },
     package: { type: Schema.Types.ObjectId, ref: "Package", required: true },
-    stripeSubscriptionId: { type: String, required: true },
-    status: { type: String, enum: ["active", "canceled", "expired"], default: "active" },
-    startDate: { type: Date, required: true },
-    endDate: { type: Date, required: true },
+    stripeSubscriptionId: { type: String }, // filled after checkout completion
+    stripeSessionId: { type: String }, // store checkout session id
+    status: {
+      type: String,
+      enum: ["pending", "active", "canceled", "expired"],
+      default: "pending",
+    },
+    startDate: { type: Date },
+    endDate: { type: Date },
+    paymentStatus: {
+      type: String,
+      enum: ["paid", "unpaid", "incomplete"],
+      default: "unpaid",
+    },
   },
   { timestamps: true }
 );
 
 export const Subscription = model<ISubscription, SubscriptionModel>(
-  "Subscriptionmy",
+  "Subscriptionme",
   subscriptionSchema
 );

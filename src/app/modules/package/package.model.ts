@@ -33,7 +33,7 @@ const packageSchema = new Schema<IPackage, PackageModel>(
         // Stripe price ID (price_xxx) -> এইটা সাবস্ক্রিপশনের জন্য লাগবে
         priceId: {
             type: String,
-            required: false
+            required: true
         },
         credit: {
             type: Number,
