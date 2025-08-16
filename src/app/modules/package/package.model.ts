@@ -17,17 +17,23 @@ const packageSchema = new Schema<IPackage, PackageModel>(
         },
         duration: {
             type: String,
-            enum: ['1 month' , '3 months' , '6 months' , '1 year'],
+            enum: ['1 month', '3 months', '6 months', '1 year'],
             required: true
         },
         paymentType: {
             type: String,
-            enum: ['Monthly' , 'Yearly'],
+            enum: ['Monthly', 'Yearly'],
             required: true
         },
+        // Stripe product ID (prod_xxx)
         productId: {
             type: String,
             required: true
+        },
+        // Stripe price ID (price_xxx) -> এইটা সাবস্ক্রিপশনের জন্য লাগবে
+        priceId: {
+            type: String,
+            required: false
         },
         credit: {
             type: Number,
@@ -50,6 +56,6 @@ const packageSchema = new Schema<IPackage, PackageModel>(
     {
         timestamps: true
     }
-)
+);
 
-export const Package = model<IPackage, PackageModel>("Package", packageSchema)
+export const Package = model<IPackage, PackageModel>("Package", packageSchema);

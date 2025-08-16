@@ -1,10 +1,7 @@
 import dotenv from "dotenv";
 import path from "path";
 dotenv.config({ path: path.join(process.cwd(), ".env") });
-console.log(
-  "Environment variables loaded from .env file",
-  process.env.IP_ADDRESS
-);
+console.log("Stripe Key from ENV:", process.env.STRIPE_API_SECRET);
 export default {
   ip_address: process.env.IP_ADDRESS,
   port: process.env.PORT,
@@ -23,7 +20,8 @@ export default {
   stripe: {
     stripeSecretKey: process.env.STRIPE_API_SECRET,
     webhookSecret: process.env.WEBHOOK_SECRET,
-    paymentSuccess: process.env.WEBHOOK_SECRET,
+    // paymentSuccess: process.env.WEBHOOK_SECRET,
+    paymentSuccess: process.env.STRIPE_PAYMENT_SUCCESS,
   },
   email: {
     from: process.env.EMAIL_FROM,

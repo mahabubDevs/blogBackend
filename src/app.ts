@@ -1,12 +1,21 @@
 
 import express, { Request, Response } from "express";
+
 import cors from "cors";
+import handleStripeWebhook from "./helpers/handleStripeWebhook";
 import { StatusCodes } from "http-status-codes";
 import { Morgan } from "./shared/morgan";
 import router from '../src/app/routes';
 import globalErrorHandler from './app/middlewares/globalErrorHandler';
 import session from "express-session";
+
 const app = express();
+
+app.post(
+  '/webhook/stripe/webhook',
+  express.raw({ type: 'application/json' }),
+  handleStripeWebhook
+);
 
 // morgan
 app.use(Morgan.successHandler);
@@ -16,6 +25,8 @@ app.use(Morgan.errorHandler);
 //body parser
 
 app.use(cors());
+
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
