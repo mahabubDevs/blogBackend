@@ -26,6 +26,7 @@ export type IUser = {
     verified: boolean;
     authentication?: IAuthenticationProps;
     accountInformation?: IStripeAccountInfo;
+    stripeAccountId?: string;
 }
 
 export type UserModal = {

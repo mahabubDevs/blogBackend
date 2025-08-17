@@ -51,7 +51,9 @@ const packageSchema = new Schema<IPackage, PackageModel>(
             type: String,
             enum: ['Active', 'Delete'],
             default: "Active"
-        }
+        },
+         payoutAccountId: { type: String },
+         admin: { type: Schema.Types.ObjectId, ref: "User", required: true },
     },
     {
         timestamps: true

@@ -11,6 +11,8 @@ export interface ISubscription {
   paymentStatus?: "paid" | "unpaid" | "incomplete";
   createdAt?: Date;
   updatedAt?: Date;
+  adminId?: string; // Admin's Stripe Connected Account ID
+  
 }
 
 export type SubscriptionModel = Model<ISubscription>;

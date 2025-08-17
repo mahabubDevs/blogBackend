@@ -49,6 +49,11 @@ const userSchema = new Schema<IUser, UserModal>(
             type: Boolean,
             default: false,
         },
+        stripeAccountId: { type: String, default: null },
+
+    
+
+
         authentication: {
             type: {
                 isResetPassword: {
@@ -87,7 +92,10 @@ const userSchema = new Schema<IUser, UserModal>(
     }
 )
 
-
+// Virtual id for JWT
+userSchema.virtual("id").get(function () {
+  return this._id.toHexString();
+});
 //exist user check
 userSchema.statics.isExistUserById = async (id: string) => {
     const isExist = await User.findById(id);

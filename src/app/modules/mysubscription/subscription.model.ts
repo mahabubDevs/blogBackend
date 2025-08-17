@@ -19,6 +19,7 @@ const subscriptionSchema = new Schema<ISubscription, SubscriptionModel>(
       enum: ["paid", "unpaid", "incomplete"],
       default: "unpaid",
     },
+    adminId: { type: String }, // optional field for admin ID
   },
   { timestamps: true }
 );

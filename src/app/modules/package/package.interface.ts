@@ -1,4 +1,4 @@
-import { Model } from "mongoose";
+import { Model, Types } from "mongoose";
 
 export type IPackage = {
     title: string;
@@ -12,6 +12,9 @@ export type IPackage = {
     loginLimit: number;
     paymentLink: string;
     status?: 'Active' | 'Delete';
+    createdBy: Types.ObjectId;
+    payoutAccountId?: string;
+    admin: Types.ObjectId;
 };
 
 

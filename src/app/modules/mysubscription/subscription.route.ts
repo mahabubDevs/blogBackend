@@ -2,6 +2,7 @@ import express from "express";
 import auth from "../../middlewares/auth";
 import { USER_ROLES } from "../../../enums/user";
 import { SubscriptionController } from "./subscripton.controller";
+import { AdminController } from "./onbord.controller";
 // import { stripeWebhook } from "./subscription.webhook";
 
 const router = express.Router();
@@ -11,6 +12,12 @@ router.post(
   auth(USER_ROLES.USER),
   SubscriptionController.create
 );
+router.post(
+  "/stripe/connect",
+  auth(USER_ROLES.ADMIN),
+  AdminController.createStripeAccount
+);
+
 
 router.get(
   "/",
